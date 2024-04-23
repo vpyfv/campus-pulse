@@ -1,0 +1,61 @@
+<div class="w-full border m-auto h-screen flex items-center justify-center">
+  <form
+    class="flex flex-col items-center mr-5"
+    (ngSubmit)="onSignIn()"
+    [formGroup]="signInForm"
+  >
+    <h1>Sign In</h1>
+    <label for="email" class="self-start">email</label>
+    <input
+      class="border rounded h-10 w-96"
+      type="text"
+      formControlName="email"
+    />
+    <label for="password" class="self-start">password</label>
+    <input
+      class="border rounded h-10 w-96"
+      type="password"
+      formControlName="password"
+    />
+    <button
+      class="border mt-6 w-min px-4 py-1 rounded hover:text-white hover:bg-black"
+      type="submit"
+      [disabled]="!signInForm.valid"
+    >
+      Submit
+    </button>
+  </form>
+  <div class="flex w-1 h-1/2 border-l-2"></div>
+  <form
+    class="flex flex-col items-center ml-5"
+    (ngSubmit)="onSignUp()"
+    [formGroup]="signUpForm"
+  >
+    <h1>Sign Up</h1>
+    <label for="name" class="self-start">name</label>
+    <input
+      class="border rounded h-10 w-96"
+      type="text"
+      formControlName="name"
+    />
+    <label for="email" class="self-start">email</label>
+    <input
+      class="border rounded h-10 w-96"
+      type="text"
+      formControlName="email"
+    />
+    <label for="password" class="self-start">password</label>
+    <input
+      class="border rounded h-10 w-96"
+      type="password"
+      formControlName="password"
+    />
+    <button
+      class="border mt-6 w-min px-4 py-1 rounded hover:text-white hover:bg-black"
+      type="submit"
+      [disabled]="!signInForm.valid"
+    >
+      Submit
+    </button>
+  </form>
+</div>

@@ -1,17 +1,32 @@
-const express = require('express');
+const express =require('express');
+const mongoose = require('mongoose');
+const userRouter = require('./user/user_router')
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+require('dotenv').config()
+
+
+
+mongoose.connect(
+  process.env.MONGO_URL
+).then(()=>{
+  console.log("connected to mongoDB");
+}).catch((_)=>{
+  console.log("failed to connect to mongoDB");
+});
+
+
+
 const app = express();
+app.use(express.json())
+app.use(cookieParser())
+app.use(cors({
+  credentials:true,
+  origin:['http://localhost:4200']
+}));
+app.use('/api/user',userRouter)
 
-app.use((req,res,next)=>{
-  res.setHeader("Access-Control-Allow-Origin","*")
-  res.setHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,Accept")
-  res.setHeader("Access-Control-Allow-Methods","GET,POST,PATCH,DELETE,OPTIONS")
-  next();
-})
 
-app.use('/api/posts',(req,res,next)=>{
-  res.status(200).json({
-    message:"this is fetched data",
-  })
-})
+
 
 module.exports = app;
