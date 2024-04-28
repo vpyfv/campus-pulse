@@ -1,0 +1,34 @@
+<div class="relative flex flex-col min-h-screen justify-center items-center">
+  @for (post of posts; track $index) {
+  <div class="p-2 mb-2 w-1/3 border rounded-xl">
+    <div class="flex items-center gap-2">
+      <img
+        src="{{ post.userProfile }}"
+        alt=""
+        srcset=""
+        class="rounded-full w-10 h-10"
+      />
+      <div class="flex-1 ml-2">{{ post.userName }}</div>
+      <div>{{ post.postedTime }}</div>
+    </div>
+    @if(post.postImage!=""){
+    <img src="{{ post.postImage }}" class="w-full mt-2 rounded" />
+    }
+    <div class="mt-2">{{ post.postContent }}</div>
+    <div class="flex justify-end gap-6 me-4">
+      <div class="flex flex-row items-center gap-1">
+        <div>{{ post.postLikes }}</div>
+        <button (click)="postLikeChanged(post)">
+          @if(post.liked){
+          <img src="assets/favorite_FILL1.svg" alt="" />
+          } @else {
+          <img src="assets/favorite_FILL0.svg" alt="" />
+          }
+        </button>
+      </div>
+
+      <img src="assets/location.svg" alt="" />
+    </div>
+  </div>
+  }
+</div>
