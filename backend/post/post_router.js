@@ -15,7 +15,10 @@ router.get("/", async (req, res, next) => {
       user_profile: p.user.image,
       post_id: p.id,
       posted_time: p.createdTime,
-      post_image: "http://localhost:3001/api/images/" + p.image,
+      post_image:
+        p.image == undefined
+          ? null
+          : "http://localhost:3001/api/images/" + p.image,
       post_content: p.content,
       post_likes: p.likedUsers.length,
       location: p.location,
@@ -31,19 +34,31 @@ router.post("/upload", async (req, res, _) => {
   if (user) {
     let uploadPath;
     let file;
-    file = req.files.image;
-    const extension = file.name.split(".").pop();
-    const newFileName = crypto.randomUUID() + "." + extension;
-    uploadPath = path.join(__dirname, "..", "storage", "images", newFileName);
-    return file.mv(uploadPath, async (err) => {
-      console.log("calling mv");
-      if (err) {
-        return res.status(500).send({ message: "unable to upload image" });
-      }
-      console.log("user_image", user.image);
+    if (req.files) {
+      file = req.files.image;
+      const extension = file.name.split(".").pop();
+      const newFileName = crypto.randomUUID() + "." + extension;
+      uploadPath = path.join(__dirname, "..", "storage", "images", newFileName);
+      return file.mv(uploadPath, async (err) => {
+        console.log("calling mv");
+        if (err) {
+          return res.status(500).send({ message: "unable to upload image" });
+        }
+        console.log("user_image", user.image);
+        const post = new PostModel({
+          content: req.body.postDetails,
+          image: newFileName,
+          location: req.body.location,
+          user: { id: user._id, image: user.image, name: user.name },
+          likedUsers: [],
+        });
+
+        await post.save();
+        return res.send({ message: "post created" });
+      });
+    } else {
       const post = new PostModel({
         content: req.body.postDetails,
-        image: newFileName,
         location: req.body.location,
         user: { id: user._id, image: user.image, name: user.name },
         likedUsers: [],
@@ -51,7 +66,7 @@ router.post("/upload", async (req, res, _) => {
 
       await post.save();
       return res.send({ message: "post created" });
-    });
+    }
   }
   return res.status(401).send({ message: "user not authenticated" });
 });
