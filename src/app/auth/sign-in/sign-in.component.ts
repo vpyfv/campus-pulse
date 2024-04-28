@@ -17,7 +17,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     Emitter.authEmitter.subscribe((isSigned) =>
-      isSigned ? this.router.navigate(['/home']) : {}
+      isSigned ? this.router.navigate(['/post-list']) : {}
     );
   }
 
@@ -49,7 +49,9 @@ export class SignInComponent implements OnInit {
 
   onSignUp() {
     this.http
-      .post('http://localhost:3001/api/user/signup', this.signUpForm.value)
+      .post('http://localhost:3001/api/user/signup', this.signUpForm.value, {
+        withCredentials: true,
+      })
       .pipe(
         catchError((err, caught) => {
           console.log('error', err);

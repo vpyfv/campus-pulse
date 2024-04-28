@@ -6,9 +6,13 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { NavigationComponent } from './navigation/navigation.component';
 import { Emitter } from './emitter/emitter';
 import { catchError, of } from 'rxjs';
+import { PostListComponent } from './post-list/post-list.component';
+import { MatIconModule } from '@angular/material/icon';
+import { PostUploadComponent } from './post-upload/post-upload.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +20,13 @@ import { catchError, of } from 'rxjs';
   imports: [
     RouterOutlet,
     HttpClientModule,
-    HomeComponent,
+    NavigationComponent,
+    PostListComponent,
+    PostUploadComponent,
     RouterLink,
     RouterLinkActive,
+    MatIconModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -30,7 +38,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     Emitter.authEmitter.subscribe((status) =>
       status
-        ? this.router.navigate(['home'])
+        ? this.router.navigate(['post-list'])
         : this.router.navigate(['sign-in'])
     );
     this.checkUserStatus();

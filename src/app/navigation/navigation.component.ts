@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SignInComponent } from '../auth/sign-in/sign-in.component';
 import { Emitter } from '../emitter/emitter';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { catchError, Observable, of, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-navigation',
   standalone: true,
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  imports: [SignInComponent],
+  templateUrl: './navigation.component.html',
+  styleUrl: './navigation.component.css',
+  imports: [SignInComponent, RouterModule],
 })
-export class HomeComponent implements OnInit {
+export class NavigationComponent implements OnInit {
   public signedIn: boolean = false;
   constructor(private router: Router, private http: HttpClient) {}
 

@@ -46,3 +46,6 @@ backend/note.txt
 
 #env
 *.env
+
+#storage
+backend/storage
