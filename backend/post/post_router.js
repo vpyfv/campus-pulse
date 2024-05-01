@@ -4,6 +4,7 @@ const router = require("express").Router();
 const { isUserAuthenticated } = require("../auth/auth_service");
 const { uploadImage } = require("../image/image_service");
 const path = require("path");
+const fs = require("fs");
 
 router.get("/", async (req, res, next) => {
   console.log("checking user to retrieve posts");
@@ -38,6 +39,11 @@ router.post("/upload", async (req, res, _) => {
       file = req.files.image;
       const extension = file.name.split(".").pop();
       const newFileName = crypto.randomUUID() + "." + extension;
+      if (!fs.existsSync(path.join(__dirname, "..", "storage", "images"))) {
+        fs.mkdirSync(path.join(__dirname, "..", "storage", "images"), {
+          recursive: true,
+        });
+      }
       uploadPath = path.join(__dirname, "..", "storage", "images", newFileName);
       return file.mv(uploadPath, async (err) => {
         console.log("calling mv");
