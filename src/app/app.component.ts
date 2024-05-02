@@ -13,6 +13,7 @@ import { PostListComponent } from './post-list/post-list.component';
 import { MatIconModule } from '@angular/material/icon';
 import { PostUploadComponent } from './post-upload/post-upload.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavigationComponent,
     PostListComponent,
     PostUploadComponent,
+    FooterComponent,
     RouterLink,
     RouterLinkActive,
     MatIconModule,

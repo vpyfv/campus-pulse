@@ -37,9 +37,10 @@ export class PostListService implements OnDestroy {
               location: post.location,
               postContent: post.post_content,
               postId: post.post_id,
-              postedTime:
-                this.calculateDaysDifferenceFromTimestamp(post.posted_time) +
-                ' days ago',
+              // postedTime:
+              //   this.calculateDaysDifferenceFromTimestamp(post.posted_time) +
+              //   ' days ago',
+              postedTime:post.posted_time,
               postImage: post.post_image,
               postLikes: post.post_likes,
               userName: post.user_name,
