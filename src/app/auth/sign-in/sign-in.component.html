@@ -1,17 +1,19 @@
-<div class="w-full border m-auto h-screen flex items-center justify-center">
-  <form
+
+<!-- <div class="w-full h-screen flex items-center justify-center" style="background-image: url('/assets/mountain.png'); background-size: cover; background-repeat: no-repeat;"> -->
+  <div class="w-full border m-auto h-screen flex items-center justify-center">
+    <form
     class="flex flex-col items-center mr-5"
     (ngSubmit)="onSignIn()"
     [formGroup]="signInForm"
   >
-    <h1>Sign In</h1>
-    <label for="email" class="self-start">email</label>
+    <h1>SIGN IN</h1>
+    <label for="email" class="self-start">Email</label>
     <input
       class="border rounded h-10 w-96"
       type="text"
       formControlName="email"
     />
-    <label for="password" class="self-start">password</label>
+    <label for="password" class="self-start">Password</label>
     <input
       class="border rounded h-10 w-96"
       type="password"
@@ -31,25 +33,37 @@
     (ngSubmit)="onSignUp()"
     [formGroup]="signUpForm"
   >
-    <h1>Sign Up</h1>
-    <label for="name" class="self-start">name</label>
+    <h1>SIGN UP</h1>
+    <label for="name" class="self-start">Name</label>
     <input
       class="border rounded h-10 w-96"
       type="text"
       formControlName="name"
     />
-    <label for="email" class="self-start">email</label>
+    <div *ngIf="signUpForm.get('name')?.invalid && (signUpForm.get('name')?.dirty || signUpForm.get('name')?.touched)">
+      <div *ngIf="signUpForm.get('name')?.errors?.['required']">Name is required.</div>
+      <div *ngIf="signUpForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
+    </div>
+    <label for="email" class="self-start">Email</label>
     <input
       class="border rounded h-10 w-96"
       type="text"
       formControlName="email"
     />
-    <label for="password" class="self-start">password</label>
+    <div *ngIf="signUpForm.get('email')?.invalid && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched)">
+        <div *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</div>
+        <div *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email format.</div>
+      </div>
+    <label for="password" class="self-start">Password</label>
     <input
       class="border rounded h-10 w-96"
       type="password"
       formControlName="password"
     />
+    <div *ngIf="signUpForm.get('password')?.invalid && (signUpForm.get('password')?.dirty || signUpForm.get('password')?.touched)">
+      <div *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required.</div>
+      <div *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+    </div>
     <button
       class="border mt-6 w-min px-4 py-1 rounded hover:text-white hover:bg-black"
       type="submit"

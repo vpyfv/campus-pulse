@@ -4,11 +4,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Emitter } from '../../emitter/emitter';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
+import { Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css',
 })
@@ -27,9 +30,13 @@ export class SignInComponent implements OnInit {
   });
 
   signUpForm = new FormGroup({
-    name: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]+$/)
+    ]),
   });
 
   onSignIn() {
@@ -48,6 +55,7 @@ export class SignInComponent implements OnInit {
   }
 
   onSignUp() {
+    if (this.signUpForm.valid) {
     this.http
       .post('http://localhost:3001/api/user/signup', this.signUpForm.value, {
         withCredentials: true,
@@ -62,4 +70,5 @@ export class SignInComponent implements OnInit {
         Emitter.authEmitter.next(true);
       });
   }
+}
 }
