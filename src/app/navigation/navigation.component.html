@@ -1,12 +1,12 @@
-<header class="sticky top-0 z-50">
-  <div class="flex p-4 me-4 justify-center items-center backdrop-blur-sm">
+<header class="fixed top-0 z-50 min-w-full">
+  <div class="flex p-4 me-4 justify-between items-center backdrop-blur-sm">
     <a [routerLink]="['/post-list']" class="flex-1 text-2xl font-semibold"
       >Campus Pulse</a
     >
+    @if(signedIn){
     <a [routerLink]="['/post-upload']" class="mx-10">New Post</a>
-    @if([signedIn]){
     <button (click)="onSignOut()">Sign out</button>
-    } @if(![signedIn]){
+    } @else{
     <button>Sign In</button>
     }
   </div>

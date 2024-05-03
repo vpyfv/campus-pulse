@@ -1,4 +1,4 @@
-<div class="w-full border m-auto h-screen flex items-center justify-center">
+<div class="w-full border m-auto min-h-screen flex items-center justify-center">
   <form
     class="flex flex-col items-center mr-5"
     (ngSubmit)="onSignIn()"
@@ -7,7 +7,7 @@
     <h1>Sign In</h1>
     <label for="email" class="self-start">email</label>
     <input
-      class="border rounded h-10 w-96"
+      class="border rounded h-10 w-96 mb-2"
       type="text"
       formControlName="email"
     />
@@ -20,12 +20,11 @@
     <button
       class="border mt-6 w-min px-4 py-1 rounded hover:text-white hover:bg-black"
       type="submit"
-      [disabled]="!signInForm.valid"
     >
       Submit
     </button>
   </form>
-  <div class="flex w-1 h-1/2 border-l-2"></div>
+  <div class="font-semibold mx-4">OR</div>
   <form
     class="flex flex-col items-center ml-5"
     (ngSubmit)="onSignUp()"
@@ -34,13 +33,13 @@
     <h1>Sign Up</h1>
     <label for="name" class="self-start">name</label>
     <input
-      class="border rounded h-10 w-96"
+      class="border rounded h-10 w-96 mb-2"
       type="text"
       formControlName="name"
     />
     <label for="email" class="self-start">email</label>
     <input
-      class="border rounded h-10 w-96"
+      class="border rounded h-10 w-96 mb-2"
       type="text"
       formControlName="email"
     />
@@ -53,9 +52,19 @@
     <button
       class="border mt-6 w-min px-4 py-1 rounded hover:text-white hover:bg-black"
       type="submit"
-      [disabled]="!signInForm.valid"
     >
       Submit
     </button>
   </form>
+  @if (error.isTrue) {
+  <div
+    class="transition transform fixed z-10 mb-20 bottom-0 opacity-100 scale-100 translate-y-0 ease-out duration-500 animate-headShake"
+  >
+    <div class="rounded-lg bg-black shadow-lg">
+      <p class="text-white text-lg text-center align-middle px-16 py-2">
+        {{ error.message }}
+      </p>
+    </div>
+  </div>
+  }
 </div>

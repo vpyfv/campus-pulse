@@ -6,23 +6,18 @@ import { Post } from './post.mode';
 @Injectable({
   providedIn: 'root',
 })
-export class PostListService implements OnDestroy {
+export class PostListService {
   private posts: Post[] = [];
   private postsSubject = new Subject<Post[]>();
-  private postsSubscription: Subscription = new Subscription();
 
   constructor(private http: HttpClient) {}
-
-  ngOnDestroy(): void {
-    this.postsSubscription.unsubscribe();
-  }
 
   getPostListener() {
     return this.postsSubject.asObservable();
   }
 
   getPosts() {
-    this.postsSubscription = this.http
+    this.http
       .get('http://localhost:3001/api/post', { withCredentials: true })
       .pipe(
         catchError((err) => {
