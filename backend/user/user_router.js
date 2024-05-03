@@ -10,20 +10,24 @@ const {
 } = require("../auth/auth_service");
 
 router.post("/signup", async (req, res, next) => {
-  console.log(req.body);
-  const salt = await bycrypt.genSalt(10);
-  const hashPassword = await bycrypt.hash(String(req.body.password), salt);
-  const image = new avatarGenerator.AvatarGenerator().generateRandomAvatar();
-  const user = new UserModel({
-    name: req.body.name,
-    email: req.body.email,
-    password: hashPassword,
-    image: image,
-  });
-  const newDoc = await user.save();
-  const { password, ...newUser } = newDoc._doc;
-  setJwtCookie(newUser, res);
-  return res.send(newUser);
+  const user = await UserModel.findOne({ email: req.body.email });
+  if (!user) {
+    const salt = await bycrypt.genSalt(10);
+    const hashPassword = await bycrypt.hash(String(req.body.password), salt);
+    const image = new avatarGenerator.AvatarGenerator().generateRandomAvatar();
+    const user = new UserModel({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashPassword,
+      image: image,
+    });
+    const newDoc = await user.save();
+    const { password, ...newUser } = newDoc._doc;
+    setJwtCookie(newUser, res);
+    return res.send(newUser);
+  } else {
+    return res.status(400).send({ message: "user already exists" });
+  }
 });
 
 router.post("/signin", async (req, res, next) => {

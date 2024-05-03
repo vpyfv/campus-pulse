@@ -12,16 +12,23 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './navigation.component.css',
   imports: [SignInComponent, RouterModule],
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
   public signedIn: boolean = false;
-  constructor(private router: Router, private http: HttpClient) {}
+  private sub: Subscription;
+  constructor(private router: Router, private http: HttpClient) {
+    this.sub = new Subscription();
+  }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   ngOnInit(): void {
-    Emitter.authEmitter.subscribe((signInStatus) => {
+    this.sub = Emitter.authEmitter.subscribe((signInStatus) => {
+      console.log('sign in status:', signInStatus);
+      this.signedIn = signInStatus;
       if (!signInStatus) {
         this.router.navigate(['sign-in']);
       }
-      this.signedIn = signInStatus;
     });
   }
 
